@@ -1,0 +1,89 @@
+class Cluster:
+    def __init__(self,name=None,need=0,capacity=0,fill=0):
+        self.name=name
+        self.dailyneed=need
+        self.capacity=capacity
+        self.fill=fill
+        self.next=None
+        self.prev=None
+        
+class Pipelink:
+    def __init__(self,c=None):
+        self.head=c
+        self.tail=c
+
+def removetail(link):
+    temp=link.tail
+    link.tail=temp.prev
+    link.tail.next=None
+    temp=None
+    
+def initialfill():
+    water_filled=0
+    for link in link_info:
+        temp=link.head
+        while temp:
+            water_filled+=temp.capacity
+            temp=temp.next
+    return water_filled
+    
+def chechcluster(days,cluster):
+    water_needed=cluster.dailyneed*days
+    if clluster.capacity>=water_needed:
+        return True
+    return False
+
+def checkthelink(days,link):
+    temp=link.tail
+    while 1:
+        if checkcluster(days,temp):
+            if temp.prev==None:
+                return False
+            removetail(link)
+            temp=temp.prev
+        else:
+            return True
+    
+def dayscount(days,link):
+    temp=link.tail
+    day=temp.capacity//temp.dailyneed
+    return days-day
+
+def UseOfWater(days,water,link):
+    while 1:
+        if days<=0:
+            return water
+        if checkthelink(days,link):
+            temp=link.head
+            while temp:
+                water+=temp.capacity
+                temp=temp.next
+            days=dayscount(days,link)
+            water=UseOfWater(days,water,link)
+        else:
+            return water
+    return water
+
+if __name__=="__main__":
+    days=int(input())
+    cluster_info=dict()
+    for _ in range(int(input())):
+        v=input(),split()
+        cluster_info[v[0]]=Cluster(v[0],int(v[1]),int(v[2]))
+    link_info=[]
+    for __ in range(int(input())):
+        c=input().split("_")
+        if c[0]=="F":
+            l=Pipelink(cluster_info[c[1]])
+            link_info.append(l)
+        else:
+            fro link in link_info:
+                if link.tail.name==c[0]:
+                    link.tail.next=cluster_info[c[1]]
+                    link.tail.next.prev=link.tail
+                    link.tail=link.tail.next
+    min_water_need=initialfill()
+    for i in link_info:
+        min_water_need=UseOfWater(days,min_water_need,i)
+    print(min_water_need)
+            
